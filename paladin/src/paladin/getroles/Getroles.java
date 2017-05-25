@@ -1,22 +1,10 @@
 package paladin.getroles;
 
-
-import java.awt.*;
-import java.io.IOException;
-import java.util.EventListener;
-import java.util.List;
 import com.reztek.Base.CommandModule;
-import com.reztek.modules.GuardianControl.Guardian;
-import com.reztek.modules.RumbleCommands.RumbleList;
-import com.reztek.modules.TrialsCommands.Badges.TrialsDetailedBadge;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.events.message.MessageBulkDeleteEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import javax.management.relation.RoleResult;
+
+import java.util.List;
 
 public class Getroles extends CommandModule {
 
@@ -26,12 +14,13 @@ public class Getroles extends CommandModule {
         setModuleNameAndAuthor("Getting Roles", "paladinshiva/Chase/Xia");
         addCommand(new String[]{
                 "getps4", "getxb1",
-                "getLFGPS4", "getLFGXB1"
+                "getlfgps4", "getlfgxb1"
         });
     }
 
     @Override
-    public void processCommand(String command, String arg1, MessageReceivedEvent mre) {
+    public void processCommand(String command, String arg0, MessageReceivedEvent mre) {
+
         switch (command) {
             case "getps4":
                 Getps4(mre);
@@ -39,18 +28,18 @@ public class Getroles extends CommandModule {
             case "getxb1":
                 Getxb1(mre);
                 break;
-            case "getLFGPS4":
+            case "getlfgps4":
                 GetLFGPS4(mre);
                 break;
-            case "getLFGXB1":
+            case "getlfgxb1":
                 GetLFGXB1(mre);
                 break;
 
         }
-        Cleanup(command, mre);
+        Cleanup(command, null, mre);
     }
 
-    protected void Cleanup(String arg0, MessageReceivedEvent mre) {
+    private void Cleanup(String arg0, String arg1, MessageReceivedEvent mre) {
         try {
         Thread.sleep(7000);                 //1000 milliseconds is one second.
     }
@@ -62,17 +51,20 @@ public class Getroles extends CommandModule {
         ms.delete().queue();
     }
 }
-    protected void Getps4 (MessageReceivedEvent mre) {
-        mre.getMember();
+    private void Getps4 (MessageReceivedEvent mre) {
+        mre.getGuild().getController().addRolesToMember((mre.getMember()),mre.getGuild().getRolesByName("ps4", true)).queue();
         mre.getChannel().sendMessage("You are ps4 now").complete();
     }
-    protected void Getxb1 (MessageReceivedEvent mre) {
+    private void Getxb1 (MessageReceivedEvent mre) {
+        mre.getGuild().getController().addRolesToMember((mre.getMember()),mre.getGuild().getRolesByName("xb1", true)).queue();
         mre.getChannel().sendMessage("You are xb1 now").complete();
     }
-    protected void GetLFGPS4 (MessageReceivedEvent mre) {
+    private void GetLFGPS4 (MessageReceivedEvent mre) {
+        mre.getGuild().getController().addRolesToMember((mre.getMember()),mre.getGuild().getRolesByName("ps4lfg", true)).queue();
         mre.getChannel().sendMessage("The LFG on PS4 you have").complete();
     }
-    protected void GetLFGXB1 (MessageReceivedEvent mre) {
-        mre.getChannel().sendMessage("The LFG on PS4 you have").complete();
+    private void GetLFGXB1 (MessageReceivedEvent mre) {
+        mre.getGuild().getController().addRolesToMember((mre.getMember()),mre.getGuild().getRolesByName("xb1lfg", true)).queue();
+        mre.getChannel().sendMessage("The LFG on XB1 you have").complete();
     }
 }

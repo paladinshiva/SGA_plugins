@@ -10,5 +10,6 @@
     <orderEntry type="library" scope="PROVIDED" name="DestinyPluginPack" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="JDA-3.0.0_165" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="SGA-Extended-Bot" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="SGAAutoPromoter" level="application" />
   </component>
 </module>
