@@ -1,10 +1,8 @@
 package paladin.getroles;
 
 import com.reztek.Base.CommandModule;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
-import java.util.List;
+import paladin.cleanup.Cleanup;
 
 public class Getroles extends CommandModule {
 
@@ -34,23 +32,9 @@ public class Getroles extends CommandModule {
             case "getlfgxb1":
                 GetLFGXB1(mre);
                 break;
-
         }
-        Cleanup(command, null, mre);
+        new Cleanup(mre);
     }
-
-    private void Cleanup(String arg0, String arg1, MessageReceivedEvent mre) {
-        try {
-        Thread.sleep(7000);                 //1000 milliseconds is one second.
-    }
-        catch (InterruptedException ex) {
-        Thread.currentThread().interrupt();
-    }
-    List<Message> m = mre.getChannel().getHistory().retrievePast(2).complete();
-        for (Message ms : m) {
-        ms.delete().queue();
-    }
-}
     private void Getps4 (MessageReceivedEvent mre) {
         mre.getGuild().getController().addRolesToMember((mre.getMember()),mre.getGuild().getRolesByName("ps4", true)).queue();
         mre.getChannel().sendMessage("You are ps4 now").complete();
