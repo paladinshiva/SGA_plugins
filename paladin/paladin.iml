@@ -7,9 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="DestinyPluginPack" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="JDA-3.0.0_165" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="SGA-Extended-Bot" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="SGAAutoPromoter" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="JDA-3.1.0_204" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="SGA-Extended-Bot-2.3" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="SGAAutoPromoter-1.1" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="DestinyPluginPack-1.1" level="application" />
   </component>
 </module>

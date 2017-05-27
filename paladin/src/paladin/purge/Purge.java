@@ -80,7 +80,7 @@ public class Purge extends CommandModule {
          * This cleans up unnecessary trashed channel with 1000s of messages */
         if (command.equals("format:c")&& mre.getMember().hasPermission(Permission.ADMINISTRATOR)) {
             mre.getMember().getUser().openPrivateChannel().queue();
-            mre.getMember().getUser().getPrivateChannel().sendMessage("EVERYTHING IS GONE").queue();
+            mre.getPrivateChannel().sendMessage("EVERYTHING IS GONE").queue();
             mre.getTextChannel().delete().queue();
             String c = mre.getTextChannel().getName();
             mre.getGuild().getController().createTextChannel(c).queue();
