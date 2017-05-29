@@ -4,7 +4,7 @@
   
 !slowpurge(any amount, but one by one, ignores pinned messages);
   
-!format:c(deletes and creates back the channel to clean everything, can only be run by a role that has Administrator enabledcurrently);
+!format:c(deletes and creates back the channel to clean everything, can only be run by a role that has Administrator enabled currently);
   
 !getps4(Adds ps4 role to the member); 
  
