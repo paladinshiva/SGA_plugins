@@ -1,6 +1,6 @@
 # Command list:
   
-!quickpurge(only 2-100, but almost instant, ignores pinned messages); 
+!quickpurge(only 2-100, but almost instant, DOES NOT IGNORE pinned messages); 
   
 !slowpurge(any amount, but one by one, ignores pinned messages);
   
