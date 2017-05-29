@@ -13,16 +13,16 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class Purge extends CommandModule {
         /**Sets up a constructor module(required by layout, as well as all the stuff below)*/
         public Purge() {
-        /**Your module id*/
-        super("Purge Command");
-        setModuleNameAndAuthor("Purge Command", "paladinshiva/Chase/Xia");
-        setVersion("2.0");
-            /**Here you add your commands. If it is just one command then use: 'addCommand("name_here");'.
-             * If you have several then use: 'addCommand(new String[] {"your_command","other_command"});' */
-            addCommand(new String[]{
-                "quickpurge", "slowpurge",
-                "format:c"
-        });
+            /**Your module id*/
+            super("Purge Command");
+            setModuleNameAndAuthor("Purge Command", "paladinshiva/Chase/Xia");
+            setVersion("3.0");
+                /**Here you add your commands. If it is just one command then use: 'addCommand("name_here");'.
+                 * If you have several then use: 'addCommand(new String[] {"your_command","other_command"});' */
+                addCommand(new String[]{
+                    "quickpurge", "slowpurge",
+                    "format:c"
+            });
     }
     /**Makes sure your custom command new class(new relative to the plugin)will run,
      * after you already defined top class("public class your_module_here"*/
@@ -37,7 +37,7 @@ public class Purge extends CommandModule {
         /**Executes "quickpurge", deletes any amount from 2 to 100 messages at once
          * Asks what argument value is 'count' and if you forgot to say how much, returns help message*/
             if (count == null) {
-                sendHelpString(mre, "Please specify how much from 2 to 100");
+                sendHelpString(mre, "How much from 2 to 100, you tell me must");
                 /**If all is good then it goes to execute*/
             } else {
                 /**Using Collection and Message functions of Java it goes into a channel, stores specified amount
@@ -46,7 +46,7 @@ public class Purge extends CommandModule {
                 Collection<Message> ms = mre.getChannel().getHistory().retrievePast(Integer.valueOf(count)).complete();
                 /**Sends a message while its working(technically before), and completes its assigned CPU thread
                  * so the message would for sure stay there until code stops running*/
-                mre.getChannel().sendMessage("Purging").complete();
+                mre.getChannel().sendMessage("Purging now "+mre.getMember().getEffectiveName()+"...").complete();
                 /**Makes the Collection<Message> function that we equaled to variable ms, a Message function
                  * that we in turn equal to m*/
                 for (Message m : ms) {
@@ -64,10 +64,10 @@ public class Purge extends CommandModule {
         /**Executes "slowpurge", deletes specified amount of messages one by one */
         if (command.equals("slowpurge") && mre.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
             if (count == null) {
-                sendHelpString(mre, "Please specify how much from 1 to ~");
+                sendHelpString(mre, "How much from 1 to ~, you tell me must");
             } else {
                 Collection<Message> ms = mre.getChannel().getHistory().retrievePast(Integer.valueOf(count)).complete();
-                mre.getChannel().sendMessage("Purging").complete();
+                mre.getChannel().sendMessage("Purging now "+mre.getMember().getEffectiveName()+"...").complete();
                 for (Message m : ms) {
                     if (!m.isPinned()) {
                         m.delete().queue();
@@ -79,11 +79,11 @@ public class Purge extends CommandModule {
         /**Executes "format:c", deletes and immediately adds the channel that command was executed in.
          * This cleans up unnecessary trashed channel with 1000s of messages */
         if (command.equals("format:c")&& mre.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+            String c = mre.getTextChannel().getName();
+            mre.getTextChannel().delete().queue();
+            mre.getGuild().getController().createTextChannel(c).queue();
             mre.getMember().getUser().openPrivateChannel().queue();
             mre.getPrivateChannel().sendMessage("EVERYTHING IS GONE").queue();
-            mre.getTextChannel().delete().queue();
-            String c = mre.getTextChannel().getName();
-            mre.getGuild().getController().createTextChannel(c).queue();
         }
     }
 }
