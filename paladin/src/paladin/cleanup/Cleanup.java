@@ -11,9 +11,12 @@ public class Cleanup {
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
-        List<Message> m = mre.getChannel().getHistory().retrievePast(2).complete();
-        for (Message ms : m) {
-            ms.delete().queue();
+        List<Message> ms = mre.getChannel().getHistory().retrievePast(2).complete();
+        for (Message m : ms) {
+            if (!m.isPinned()) {
+                /**Delets all stored previously stuff*/
+                m.delete().queue();
+            }
         }
     }
 }

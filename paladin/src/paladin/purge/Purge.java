@@ -1,7 +1,8 @@
 package paladin.purge;
 /**Included a little guide*/
 import paladin.cleanup.Cleanup;
-import java.util.Collection;
+import java.util.List;
+
 import com.reztek.Base.CommandModule;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
@@ -16,12 +17,11 @@ public class Purge extends CommandModule {
             /**Your module id*/
             super("Purge Command");
             setModuleNameAndAuthor("Purge Command", "paladinshiva/Chase/Xia");
-            setVersion("3.0");
+            setVersion("3.5");
                 /**Here you add your commands. If it is just one command then use: 'addCommand("name_here");'.
                  * If you have several then use: 'addCommand(new String[] {"your_command","other_command"});' */
                 addCommand(new String[]{
-                    "quickpurge", "slowpurge",
-                    "format:c"
+                    "purge", "format:c"
             });
     }
     /**Makes sure your custom command new class(new relative to the plugin)will run,
@@ -32,42 +32,42 @@ public class Purge extends CommandModule {
      * mre just provides faster coding, instead of typing the whole thing
      * class could be pretty much anything except the higher one, but 'public void' works*/
     public void processCommand(String command, String count, MessageReceivedEvent mre) {
-        /**Takes commands from top class*/
-        if (command.equals("quickpurge"))  {
-        /**Executes "quickpurge", deletes any amount from 2 to 100 messages at once
-         * Asks what argument value is 'count' and if you forgot to say how much, returns help message*/
+//        /**Takes commands from top class*/
+//        if (command.equals("quickpurge"))  {
+//        /**Executes "quickpurge", deletes any amount from 2 to 100 messages at once
+//         * Asks what argument value is 'count' and if you forgot to say how much, returns help message*/
+//            if (count == null) {
+//                sendHelpString(mre, "How much from 2 to 100?");
+//                /**If all is good then it goes to execute*/
+//            } else {
+//                /**Using Collection and Message functions of Java it goes into a channel, stores specified amount
+//                 * of messages(Discord messages, not that Java thing)
+//                 * Also equals the result of that history stored in the function to a simple variable*/
+//                List<Message> ms = mre.getChannel().getHistory().retrievePast(Integer.valueOf(count)).complete();
+//                /**Sends a message while its working(technically before), and completes its assigned CPU thread
+//                 * so the message would for sure stay there until code stops running*/
+//                mre.getChannel().sendMessage("Purging now "+mre.getMember().getEffectiveName()+"...").complete();
+//                /**Makes the Collection<Message> function that we equaled to variable ms, a Message function
+//                 * that we in turn equal to m*/
+//                for (Message m : ms) {
+//                    /**Only will delete if messages are not pinned*/
+//                    if (!m.isPinned()) {
+//                        /**Delets all stored previously stuff*/
+//                        mre.getTextChannel().deleteMessages(ms).queue();
+//                    }
+//                }
+//                /**Runs my Cleanup sequence that wait 7 seconds and then deletes your command in channel
+//                 * and deletes the bot message*/
+//                new Cleanup(mre);
+//            }
+//        }
+        /**Executes "purge", deletes specified amount of messages one by one */
+        if (command.equals("purge") && mre.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
             if (count == null) {
-                sendHelpString(mre, "How much from 2 to 100, you tell me must");
-                /**If all is good then it goes to execute*/
+                sendHelpString(mre, "How much from 1 to ~?");
             } else {
-                /**Using Collection and Message functions of Java it goes into a channel, stores specified amount
-                 * of messages(Discord messages, not that Java thing)
-                 * Also equals the result of that history stored in the function to a simple variable*/
-                Collection<Message> ms = mre.getChannel().getHistory().retrievePast(Integer.valueOf(count)).complete();
-                /**Sends a message while its working(technically before), and completes its assigned CPU thread
-                 * so the message would for sure stay there until code stops running*/
-                mre.getChannel().sendMessage("Purging now "+mre.getMember().getEffectiveName()+"...").complete();
-                /**Makes the Collection<Message> function that we equaled to variable ms, a Message function
-                 * that we in turn equal to m*/
-                for (Message m : ms) {
-                    /**Only will delete if messages are not pinned*/
-                    if (!m.isPinned()) {
-                        /**Delets all stored previously stuff*/
-                        mre.getTextChannel().deleteMessages(ms).queue();
-                    }
-                }
-                /**Runs my Cleanup sequence that wait 7 seconds and then deletes your command in channel
-                 * and deletes the bot message*/
-                new Cleanup(mre);
-            }
-        }
-        /**Executes "slowpurge", deletes specified amount of messages one by one */
-        if (command.equals("slowpurge") && mre.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-            if (count == null) {
-                sendHelpString(mre, "How much from 1 to ~, you tell me must");
-            } else {
-                Collection<Message> ms = mre.getChannel().getHistory().retrievePast(Integer.valueOf(count)).complete();
-                mre.getChannel().sendMessage("Purging now "+mre.getMember().getEffectiveName()+"...").complete();
+                List<Message> ms = mre.getChannel().getHistory().retrievePast(Integer.valueOf(count)).complete();
+                mre.getChannel().sendMessage("Purging now "+mre.getMember().getEffectiveName()+"...").queue();
                 for (Message m : ms) {
                     if (!m.isPinned()) {
                         m.delete().queue();
