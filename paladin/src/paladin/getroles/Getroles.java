@@ -1,13 +1,14 @@
 package paladin.getroles;
+
 import com.reztek.Base.CommandModule;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import paladin.cleanup.Cleanup;
 
-import java.util.List;
-
 public class Getroles extends CommandModule {
     public static final String PLUGIN_ID               = "GETROLES";
-    public static final String PLUGIN_VER              = "4.1";
+    public static final String PLUGIN_VER              = "4.5";
     public Getroles() {
         super(PLUGIN_ID);
         setVersion(PLUGIN_VER);
@@ -44,7 +45,7 @@ public class Getroles extends CommandModule {
     }
 
     private void ChangeName(String nickname, MessageReceivedEvent mre) {
-        if (mre.getMember().isOwner() == true) {
+        if (mre.getMember().isOwner()) {
             mre.getChannel().sendMessage("Cannot help. " + mre.getMember().getEffectiveName() + ", you are the BIG BOSS (Server Owner), or your role is higher than mine").queue();
         } else {
             if (nickname == null) {
@@ -57,7 +58,7 @@ public class Getroles extends CommandModule {
         }
     }
     private void Getps4(MessageReceivedEvent mre) {
-        if (mre.getMember().isOwner() == true) {
+        if (mre.getMember().isOwner()) {
             mre.getChannel().sendMessage("Cannot help. " + mre.getMember().getEffectiveName() + ", you are the BIG BOSS (Server Owner), or your role is higher than mine").queue();
         } else {
             String tag = "[PS4] " + mre.getMember().getEffectiveName();
@@ -68,7 +69,7 @@ public class Getroles extends CommandModule {
     }
 
     private void Getxb1(MessageReceivedEvent mre) {
-        if (mre.getMember().isOwner() == true) {
+        if (mre.getMember().isOwner()) {
             mre.getChannel().sendMessage("Cannot help. " + mre.getMember().getEffectiveName() + ", you are the BIG BOSS(Server Owner) or your role is higher than mine").queue();
         } else {
             String tag = "[XB1] " + mre.getMember().getEffectiveName();
@@ -79,26 +80,32 @@ public class Getroles extends CommandModule {
     }
 
     private void GetLFGPS4(MessageReceivedEvent mre) {
-        List<net.dv8tion.jda.core.entities.Role> rs = mre.getMember().getRoles();
-        for (net.dv8tion.jda.core.entities.Role r : rs)
-        if (r.getName().equals("lfgps4")) {
+        if (hasRole(mre.getMember(),"lfgps4")) {
             mre.getGuild().getController().removeRolesFromMember(mre.getMember(), mre.getGuild().getRolesByName("lfgps4", true)).queue();
             mre.getChannel().sendMessage("You have opted out of LFG on PS4, "+mre.getMember().getEffectiveName()+"!").queue();
         } else {
-        mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("lfgps4", true)).queue();
-        mre.getChannel().sendMessage("The LFG on PS4 is yours to use, "+mre.getMember().getEffectiveName()+"!").queue();
+            mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("lfgps4", true)).queue();
+            mre.getChannel().sendMessage("The LFG on PS4 is yours to use, "+mre.getMember().getEffectiveName()+"!").queue();
         }
     }
 
     private void GetLFGXB1(MessageReceivedEvent mre) {
-        List<net.dv8tion.jda.core.entities.Role> rs = mre.getMember().getRoles();
-        for (net.dv8tion.jda.core.entities.Role r : rs)
-            if (r.getName().equals("lfgxb1")) {
-                mre.getGuild().getController().removeRolesFromMember(mre.getMember(), mre.getGuild().getRolesByName("lfgxb1", true)).queue();
-                mre.getChannel().sendMessage("You have opted out of LFG on XBOX1, " + mre.getMember().getEffectiveName() + "!").queue();
-            } else {
-                mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("lfgxb1", true)).queue();
-                mre.getChannel().sendMessage("The LFG on XBOX1 is yours to use, " + mre.getMember().getEffectiveName() + "!").queue();
-            }
+        if (hasRole(mre.getMember(),"lfgxb1")) {
+            mre.getGuild().getController().removeRolesFromMember(mre.getMember(), mre.getGuild().getRolesByName("lfgxb1", true)).queue();
+            mre.getChannel().sendMessage("You have opted out of LFG on XBOX1, "+mre.getMember().getEffectiveName()+"!").queue();
+        } else {
+            mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("lfgxb1", true)).queue();
+            mre.getChannel().sendMessage("The LFG on XBOX1 is yours to use, "+mre.getMember().getEffectiveName()+"!").queue();
+        }
     }
+
+    private Boolean hasRole(Member m, String role) {
+        for (Role r : m.getRoles()) {
+            if (r.getName().equalsIgnoreCase(role)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

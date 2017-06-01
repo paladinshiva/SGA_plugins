@@ -1,6 +1,5 @@
 package paladin.cleanup;
 
-import com.reztek.Base.CommandModule;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.util.List;

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="JDB_plugin_by_paladin:jar">
+    <output-path>$USER_HOME$/Downloads/Bot/plugins</output-path>
+    <root id="archive" name="JDB_plugin_by_paladin.jar">
+      <element id="module-output" name="paladin" />
+    </root>
+  </artifact>
+</component>

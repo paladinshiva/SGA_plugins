@@ -1,9 +1,9 @@
 package paladin.purge;
+
 /**Included a little guide*/
 import com.reztek.Utils.ConfigReader;
 import paladin.cleanup.Cleanup;
 import java.util.List;
-
 import com.reztek.Base.CommandModule;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
@@ -15,7 +15,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
  * He has setup layout that you can see below, as well as easy interface to define commands for the bot*/
 public class Purge extends CommandModule {
     public static final String PLUGIN_ID               = "PURGE";
-    public static final String PLUGIN_VER              = "3.5";
+    public static final String PLUGIN_VER              = "3.6";
     public static final String PURGE_PERMISSION        = ConfigReader.GetConfigReader().getOrCreateConfigString("PURGE_PERMISSION", "MESSAGE_MANAGE");
     public static final String FORMAT_PERMISSION       = ConfigReader.GetConfigReader().getOrCreateConfigString("FORMAT_PERMISSION", "ADMINISTRATOR");
         /**Sets up a constructor module(required by layout, as well as all the stuff below)*/
@@ -73,7 +73,7 @@ public class Purge extends CommandModule {
                 sendHelpString(mre, "How much from 1 to ~?");
             } else {
                 List<Message> ms = mre.getChannel().getHistory().retrievePast(Integer.valueOf(count)).complete();
-                mre.getChannel().sendMessage("Purging now "+mre.getMember().getEffectiveName()+"...").queue();
+                mre.getChannel().sendMessage("Purging now, "+mre.getMember().getEffectiveName()+"...").queue();
                 for (Message m : ms) {
                     if (!m.isPinned()) {
                         m.delete().queue();
