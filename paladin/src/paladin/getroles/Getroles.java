@@ -1,10 +1,8 @@
 package paladin.getroles;
 import com.reztek.Base.CommandModule;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import paladin.cleanup.Cleanup;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 public class Getroles extends CommandModule {
