@@ -1,13 +1,18 @@
 package paladin.getroles;
 import com.reztek.Base.CommandModule;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import paladin.cleanup.Cleanup;
 
-public class Getroles extends CommandModule {
+import javax.management.relation.Role;
+import java.util.List;
 
+public class Getroles extends CommandModule {
+    public static final String PLUGIN_ID               = "GETROLES";
+    public static final String PLUGIN_VER              = "4.0";
     public Getroles() {
-        super("Get Roles");
-        setVersion("4.0");
+        super(PLUGIN_ID);
+        setVersion(PLUGIN_VER);
         setModuleNameAndAuthor("Getting Roles", "paladinshiva/Chase/Xia");
         addCommand(new String[]{
                 "getps4", "getxb1",
@@ -57,7 +62,7 @@ public class Getroles extends CommandModule {
         if (mre.getMember().isOwner() == true) {
             mre.getChannel().sendMessage("Cannot help. " + mre.getMember().getEffectiveName() + ", you are the BIG BOSS (Server Owner), or your role is higher than mine").queue();
         } else {
-            String tag = "[PS4] " + mre.getMember().getNickname();
+            String tag = "[PS4] " + mre.getMember().getEffectiveName();
             mre.getGuild().getController().setNickname(mre.getMember(), tag).queue();
             mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("ps4", true)).queue();
             mre.getChannel().sendMessage("PS4 added, " + mre.getMember().getEffectiveName()+"!").queue();
@@ -68,7 +73,7 @@ public class Getroles extends CommandModule {
         if (mre.getMember().isOwner() == true) {
             mre.getChannel().sendMessage("Cannot help. " + mre.getMember().getEffectiveName() + ", you are the BIG BOSS(Server Owner) or your role is higher than mine").queue();
         } else {
-            String tag = "[XB1] " + mre.getMember().getNickname();
+            String tag = "[XB1] " + mre.getMember().getEffectiveName();
             mre.getGuild().getController().setNickname(mre.getMember(), tag).queue();
             mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("xb1", true)).queue();
             mre.getChannel().sendMessage("XBOX1 added, " + mre.getMember().getEffectiveName()+"!").queue();
@@ -76,12 +81,26 @@ public class Getroles extends CommandModule {
     }
 
     private void GetLFGPS4(MessageReceivedEvent mre) {
-        mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("ps4lfg", true)).queue();
+        List<net.dv8tion.jda.core.entities.Role> rs = mre.getMember().getRoles();
+        for (net.dv8tion.jda.core.entities.Role r : rs)
+        if (r.getName().equals("lfgps4")) {
+            mre.getGuild().getController().removeRolesFromMember(mre.getMember(), mre.getGuild().getRolesByName("lfgps4", true)).queue();
+            mre.getChannel().sendMessage("You have opted out of LFG on PS4, "+mre.getMember().getEffectiveName()+"!").queue();
+        } else {
+        mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("lfgps4", true)).queue();
         mre.getChannel().sendMessage("The LFG on PS4 is yours to use, "+mre.getMember().getEffectiveName()+"!").queue();
+        }
     }
 
     private void GetLFGXB1(MessageReceivedEvent mre) {
-        mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("xb1lfg", true)).queue();
-        mre.getChannel().sendMessage("The LFG on XBOX1 is yours to use, "+mre.getMember().getEffectiveName()+"!").queue();
+        List<net.dv8tion.jda.core.entities.Role> rs = mre.getMember().getRoles();
+        for (net.dv8tion.jda.core.entities.Role r : rs)
+            if (r.getName().equals("lfgxb1")) {
+                mre.getGuild().getController().removeRolesFromMember(mre.getMember(), mre.getGuild().getRolesByName("lfgxb1", true)).queue();
+                mre.getChannel().sendMessage("You have opted out of LFG on XBOX1, " + mre.getMember().getEffectiveName() + "!").queue();
+            } else {
+                mre.getGuild().getController().addRolesToMember(mre.getMember(), mre.getGuild().getRolesByName("lfgxb1", true)).queue();
+                mre.getChannel().sendMessage("The LFG on XBOX1 is yours to use, " + mre.getMember().getEffectiveName() + "!").queue();
+            }
     }
 }

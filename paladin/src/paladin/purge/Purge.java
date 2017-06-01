@@ -1,5 +1,6 @@
 package paladin.purge;
 /**Included a little guide*/
+import com.reztek.Utils.ConfigReader;
 import paladin.cleanup.Cleanup;
 import java.util.List;
 
@@ -7,23 +8,28 @@ import com.reztek.Base.CommandModule;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+
 /**Makes new class(in this case class is the name of your module inside Java),
  * attaching it to Chase's CommandModule which he made modular
  * Why is it good? because he provided easy(ier) method of adding Discord control command to the bot
  * He has setup layout that you can see below, as well as easy interface to define commands for the bot*/
 public class Purge extends CommandModule {
+    public static final String PLUGIN_ID               = "PURGE";
+    public static final String PLUGIN_VER              = "3.5";
+    public static final String PURGE_PERMISSION        = ConfigReader.GetConfigReader().getOrCreateConfigString("PURGE_PERMISSION", "MESSAGE_MANAGE");
+    public static final String FORMAT_PERMISSION       = ConfigReader.GetConfigReader().getOrCreateConfigString("FORMAT_PERMISSION", "ADMINISTRATOR");
         /**Sets up a constructor module(required by layout, as well as all the stuff below)*/
         public Purge() {
             /**Your module id*/
-            super("Purge Command");
+            super(PLUGIN_ID);
             setModuleNameAndAuthor("Purge Command", "paladinshiva/Chase/Xia");
-            setVersion("3.5");
+            setVersion(PLUGIN_VER);
                 /**Here you add your commands. If it is just one command then use: 'addCommand("name_here");'.
                  * If you have several then use: 'addCommand(new String[] {"your_command","other_command"});' */
                 addCommand(new String[]{
                     "purge", "format:c"
             });
-    }
+        }
     /**Makes sure your custom command new class(new relative to the plugin)will run,
      * after you already defined top class("public class your_module_here"*/
     @Override
@@ -62,7 +68,7 @@ public class Purge extends CommandModule {
 //            }
 //        }
         /**Executes "purge", deletes specified amount of messages one by one */
-        if (command.equals("purge") && mre.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+        if (command.equals("purge") && mre.getMember().hasPermission(Permission.valueOf(PURGE_PERMISSION))) {
             if (count == null) {
                 sendHelpString(mre, "How much from 1 to ~?");
             } else {
@@ -78,7 +84,7 @@ public class Purge extends CommandModule {
         }
         /**Executes "format:c", deletes and immediately adds the channel that command was executed in.
          * This cleans up unnecessary trashed channel with 1000s of messages */
-        if (command.equals("format:c")&& mre.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+        if (command.equals("format:c")&& mre.getMember().hasPermission(Permission.valueOf(FORMAT_PERMISSION))) {
             String c = mre.getTextChannel().getName();
             mre.getTextChannel().delete().queue();
             mre.getGuild().getController().createTextChannel(c).queue();
