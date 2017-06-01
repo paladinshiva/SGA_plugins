@@ -9,8 +9,8 @@
  
 !getxb1(Adds xb1 role and [XB1] prefix to the member); 
  
-!getlfgps4(Adds ps4lfg role to the member);
+!getlfgps4(Adds ps4lfg role to the member, removes the role if run again);
   
-!getlfgxb1(Adds xb1lfg role to the member);
+!getlfgxb1(Adds xb1lfg role to the member, removes the role if run again);
 
 All commands will reply with message that includes your server nickname and disappear after 10 seconds, incluiding your initial command.
