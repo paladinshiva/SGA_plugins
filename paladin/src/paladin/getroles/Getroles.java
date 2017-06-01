@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Getroles extends CommandModule {
     public static final String PLUGIN_ID               = "GETROLES";
-    public static final String PLUGIN_VER              = "4.0";
+    public static final String PLUGIN_VER              = "4.1";
     public Getroles() {
         super(PLUGIN_ID);
         setVersion(PLUGIN_VER);
